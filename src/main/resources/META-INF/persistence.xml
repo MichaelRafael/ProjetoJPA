@@ -16,8 +16,7 @@
 
             <!-- Configurações opcionais -->
             <property name="hibernate.hbm2ddl.auto" value="update"/> <!-- update, create, create-drop -->
-            <property name="hibernate.show_sql" value="true"/> <!-- Exibe as queries SQL no console -->
-            <property name="hibernate.format_sql" value="true"/> <!-- Formata as queries SQL no console -->
+            
         </properties>
     </persistence-unit>
 </persistence>

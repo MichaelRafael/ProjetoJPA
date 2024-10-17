@@ -5,7 +5,10 @@ import br.com.fuctura2.models.Livro;
 public interface InterfaceDAO {
 	
 	public void inserir(Livro livro);
-	public Livro listar(Integer id);
+	public void listar(Integer id);
+	public void atualizar(Livro livro);
+	public Livro listarPorTitulo(String titulo);
+	public void excluir(Livro livro);
 	
 
 }
