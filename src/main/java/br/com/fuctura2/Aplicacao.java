@@ -5,6 +5,8 @@ import java.util.Scanner;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import org.hibernate.internal.build.AllowSysOut;
+
 import br.com.fuctura2.dao.LivroDAO;
 import br.com.fuctura2.models.Escritor;
 import br.com.fuctura2.models.Livro;
@@ -38,11 +40,13 @@ public class Aplicacao {
 
 			System.out.println("|---------------------------|");
 			System.out.println("|   1 - Inserir Livro       |");
-			System.out.println("|   2 - Listar livro        |");
+			System.out.println("|   2 - Listar livro ID     |");
 			System.out.println("|   3 - Atualizar livro     |");
 			System.out.println("|   4 - Excluir livro       |");
-			System.out.println("|---------------------------|");
-			System.out.println("|---------------------------|");
+			System.out.println("|   5 - Excluir por ID      |");
+			System.out.println("|   6 - Mostrar acervo      |");
+			System.out.println("|   7 - Mostrar p/ título   |");
+			System.out.println("|   8 - Sair                |");
 			System.out.println("|---------------------------|");
 
 			opc = leiaInt("Opção");
@@ -129,7 +133,53 @@ public class Aplicacao {
 				} else {
 					System.out.println("\nLivro não encontrado!!!\n");
 				}
+			} else if (opc == 5) {
+
+				System.out.println("--------------");
+				System.out.println("EXCLUIR POR ID");
+				System.out.println("--------------");
+
+				System.out.println("\nDigite o identificador do livro: ");
+				Integer id = entrada.nextInt();
+
+				LivroDAO livroDAO = new LivroDAO(emf);
+
+				livroDAO.excluirPorId(id);
+
+			} else if (opc == 6) {
+
+				System.out.println("----------");
+				System.out.println("  ACERVO  ");
+				System.out.println("----------");
+
+				LivroDAO livroDAO = new LivroDAO(emf);
+
+				livroDAO.mostraAcervo();
+
+			} else if (opc == 7) {
+
+				System.out.println("-----------------");
+				System.out.println("LISTAR POR TÍTULO");
+				System.out.println("-----------------");
+
+				System.out.println("\nDigite o título do livro: ");
+				String titulo = entrada.nextLine();
+
+				LivroDAO livroDAO = new LivroDAO(emf);
+
+				Livro livro = livroDAO.listarPorTitulo(titulo);
+
+				if (livro != null) {
+					System.out.println(livro);
+				} else {
+					System.out.println("\nLivro não encontrado!!!\n");
+				}
+			} else if (opc == 8) {
+				break;
+			} else {
+				System.out.println("\nDigite uma opção válida\n");
 			}
 		}
+		System.out.println("\n##### FIM DA EXECUÇÃO ######");
 	}
 }

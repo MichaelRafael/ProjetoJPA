@@ -9,6 +9,8 @@ public interface InterfaceDAO {
 	public void atualizar(Livro livro);
 	public Livro listarPorTitulo(String titulo);
 	public void excluir(Livro livro);
+	public void excluirPorId(Integer id);
+	public void mostraAcervo();
 	
 
 }

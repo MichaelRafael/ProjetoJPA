@@ -1,5 +1,6 @@
 package br.com.fuctura2.dao;
 
+import java.util.List;
 import java.util.Scanner;
 
 import javax.persistence.EntityManager;
@@ -112,21 +113,69 @@ public class LivroDAO implements InterfaceDAO {
 
 	@Override
 	public void excluir(Livro livro) {
-		
+
 		try {
-			
+
 			em.getTransaction().begin();
 			em.remove(livro);
 			em.getTransaction().commit();
-			
+
 			em.close();
-			
+
 			System.out.println("\nLivro excluido com sucesso!!!\n");
-			
+
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
+
 	}
 
+	@Override
+	public void excluirPorId(Integer id) {
+		Scanner entrada = new Scanner(System.in);
+		try {
+			Livro livro = em.find(Livro.class, id);
+			if (livro != null) {
+				System.out.println(livro);
+				System.out.println("\nDeseja realmente excluir o livro [S/N]");
+				String resp = entrada.nextLine().toUpperCase();
+				
+				if (resp.equals("S") ) {
+					em.getTransaction().begin();
+					em.remove(livro);
+					em.getTransaction().commit();
+					
+					System.out.println("\nLivro excluido com sucesso!!!");
+				} else if (resp.equals("N")) {
+					System.out.println("\nOperação cancelada");
+					return;
+				} else {
+					System.out.println("\nOpção inválida!!!");
+				}
+
+			} else {
+				System.out.println("Livro com ID " + id + " não encontrado!!!\n");
+			}
+
+		} catch (Exception e) {			
+			em.getTransaction().rollback();
+			System.out.println("ERRO " + e.getMessage());
+		}
+
+	}
+
+	@Override
+	public void mostraAcervo() {
+
+		TypedQuery<Livro> listLivros = em.createQuery("select l from Livro l", Livro.class);
+		List<Livro> livros = listLivros.getResultList();
+		
+		if (livros.isEmpty()) {
+			System.out.println("\nNnenhum livro encontrado!!!\n");
+		} else {
+			for (Livro livro : livros) {
+				System.out.println(livro);
+			}
+		}		
+	}
 }
